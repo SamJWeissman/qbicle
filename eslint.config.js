@@ -1,5 +1,6 @@
 // ESLint v9 flat config (CommonJS)
 const js = require("@eslint/js");
+const prettier = require("eslint-config-prettier");
 
 module.exports = [
   js.configs.recommended,
@@ -61,4 +62,5 @@ module.exports = [
   {
     ignores: ["node_modules/"],
   },
+  prettier,
 ];
