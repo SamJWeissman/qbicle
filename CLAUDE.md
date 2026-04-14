@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Working Conventions
+
+- **Always create a feature branch before writing any code.** Never commit directly to `main`. Branch naming: `feature/<short-description>` or `fix/<short-description>`.
+- `main` is production — it auto-deploys to Heroku on push.
+- Open a PR to merge back to `main` when a feature is complete.
+
 ## Project Overview
 
 **Qbicle** is a residential storage-by-mail service. Customers pay a monthly subscription, ship physical items to a warehouse using a prepaid FedEx label, and request returns on demand. The business partner already operates storage/shipping infrastructure for B2B customers and has discounted FedEx rates.
