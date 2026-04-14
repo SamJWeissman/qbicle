@@ -6,36 +6,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Qbicle** is a residential storage-by-mail service. Customers pay a monthly subscription, ship physical items to a warehouse using a prepaid FedEx label, and request returns on demand. The business partner already operates storage/shipping infrastructure for B2B customers and has discounted FedEx rates.
 
-This project is in the **pre-implementation** stage. The full context is in `qbicle-project-brief.md` — read it before writing any code.
+**Phase 1 is shipped.** The landing page + waitlist form is live at `qbicle-dev` on Heroku, connected to GitHub (`SamJWeissman/qbicle`) with automatic deploys on push to `main`.
 
-## Stack
+## Stack (Phase 1 — live)
 
-- **Framework:** Next.js (App Router) + TypeScript
+- **Framework:** Plain HTML/CSS/JS + Node.js/Express
+- **Waitlist storage:** Google Sheets via service account (`googleapis`)
+- **Hosting:** Heroku (`qbicle-dev`), auto-deploys from GitHub `main`
+
+## Stack (Phase 2+ — planned)
+
+- **Framework:** Next.js (App Router) + TypeScript, or keep Express and add auth/payments
 - **Database:** PostgreSQL via Prisma or Drizzle ORM
 - **Auth:** NextAuth.js or Clerk
 - **Payments:** Stripe (subscriptions + webhooks)
 - **Shipping:** FedEx Web Services API (Ship API)
-- **Hosting:** Vercel
 - **Email:** Resend or SendGrid
 
 ## Commands
 
-> No scaffold exists yet. Once Next.js is initialized, standard commands will be:
-
 ```bash
-npm run dev       # local dev server
-npm run build     # production build
-npm run lint      # ESLint
-npm run typecheck # tsc --noEmit
+npm run dev   # local dev server (http://localhost:3000)
+npm test      # jest --forceExit (12 tests)
 ```
-
-Tests: add as needed (Jest + React Testing Library is the natural fit for Next.js).
 
 ## Build Phases
 
 Build sequentially — each phase ships independently:
 
-1. **Phase 1 (current):** Landing page + waitlist form (email + zip code). No auth, no payments.
+1. **Phase 1 ✅ SHIPPED:** Landing page + waitlist form (email + zip code). Live at qbicle-dev.herokuapp.com.
 2. **Phase 2:** Auth (email/password) + Stripe recurring subscriptions + account page.
 3. **Phase 3:** FedEx label generation for active subscribers (prepaid inbound label, PDF download).
 4. **Phase 4+:** Customer dashboard, return requests, item-level tracking, admin panel. **Do not build yet.**
@@ -61,6 +60,11 @@ ReturnRequest     → stored_box, return_tracking_number, cost (Phase 4+)
 ## Environment Variables
 
 ```
+# Phase 1 (live)
+GOOGLE_SERVICE_ACCOUNT_JSON   # service account JSON for Sheets API
+GOOGLE_SHEET_ID               # 1qW1ryJu6yVBvuHMEGqZxZSrzDyTnPuJiM18HhuNbdgo
+
+# Phase 2+ (needed when building)
 DATABASE_URL
 NEXTAUTH_SECRET / NEXTAUTH_URL
 STRIPE_SECRET_KEY / STRIPE_PUBLISHABLE_KEY / STRIPE_WEBHOOK_SECRET
@@ -72,6 +76,8 @@ RESEND_API_KEY                                           # when email is added
 ## Design Direction
 
 Clean, modern, trustworthy — closer to Dropbox than Public Storage. Key message: "Your stuff, stored and shipped back whenever you need it." Emphasize 3 simple steps (choose plan → ship stuff → get it back), no trips to a facility, no contracts.
+
+**Established visual identity (Phase 1):** Teal + mint palette (`#0D9488` primary, `#CCEDE4` accent, `#1A2E2A` dark, `#F0FAF6` background). Nav-free scroll layout. Inline SVG illustrations. See `docs/superpowers/specs/2026-04-13-qbicle-landing-page-design.md`.
 
 ## Open Decisions
 
